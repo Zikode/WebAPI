@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="col md-3">
+<h1>BET Sports</h1>
+<form #sportForm="ngForm"> 
+        <div class="form-row align-items-center">
+          <div class="col-auto">           
+            <input type="text" [(ngModel)]="SportName" name="SportName" class="form-control" id="inlineFormInput" placeholder="Sport Name" >
+          </div>          
+          <div class="col-auto">
+            <button  (click)="saveSport(SportName);SportName= ''" class="sport btn btn-danger" >Add</button>
+          </div>
+        </div>
+      </form>  
+    </div>
+    <ul *ngIf="data" class="list-group ">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let sport of data">{{sport.sportName}}
+          <div class="btn-group" role="group" > 
+          <button (click)="DeleteSport(sport)"  type="button" class="btn btn-danger">Delete</button>     
+           <button (click) = "sport.isEdit =! sport.isEdit" type="button" class="btn btn-danger">Edit</button> 
+           <div *ngIf="sport.isEdit" class="input-group mb-3">
+            <input type="text"  placeholder="{{sport.sportName}}" #Editsport  class="form-control-sm">                     
+           <button (click)="EditSport(sport,Editsport.value)" type="button" class="btn btn-danger">Update </button> 
+          </div>
+        </div>
+         </li>
+    </ul>
+  </div>
+
+

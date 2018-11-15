@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="col md-3">
+        <h1>BET Markets</h1>
+        <div class="row">
+
+          <label for="betType" class="col-sm-0 control-label">Bet Type:</label>
+
+          <div class="col-sm-2">
+          <select  class="form-control inputstl" [(ngModel)] ="betTypeId" name="betTypeId" (change)="GetbetTypeId(betTypeId)">
+                  <option *ngFor="let bet of betType" [value]="bet.betTypeId">{{bet.betTypeName}} {{bet.eventName}}
+                  </option>
+              </select>
+          </div>
+
+          <div class="form-row align-items-center" >
+              <div class="col-auto">  
+                  <input type="text" [(ngModel)]="teamA" name="teamA" class="form-control"  placeholder="Team A">         
+              </div> 
+              <div class="col-auto">  
+                  <input type="text" [(ngModel)]="teamB" name="teamB" class="form-control"  placeholder="Team B">        
+              </div>  
+
+              <div class="col-auto">  
+                  <input type="text" [(ngModel)]="priceA" name="priceA" class="form-control" placeholder="Price A">
+              </div> 
+
+              <div class="col-auto">  
+                  <input type="text" [(ngModel)]="priceB" name="priceB" class="form-control" placeholder="Price B">
+               
+              </div> 
+          </div>
+        
+          <div class="col-auto">  
+              <br> 
+
+              <input type="text" [(ngModel)]="marketName" name="marketName" class="form-control"  placeholder="Market Name">
+             </div> 
+            <div class="col-auto">
+                <br> 
+                <button  (click)="AddMarket(teamA,teamB,priceA,priceB,betTypeId,marketName);teamA= '';teamB= '';priceA= '';priceB= '';marketName= ''" class="btn btn-success" >Add</button>
+              </div>
+            </div>
+            
+    
+  
+
+    </div>
+        <ul *ngIf="market" class="list-group ">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let m of market">Market: {{m.marketName}}
+              <br> Price: {{m.priceA}} | {{m.teamA}} vs {{m.teamB}} | Price: {{m.priceB}}
+              <div class="btn-group" role="group" >   
+              <button (click)="DeleteMarket(m)" class="btn btn-danger" type="button" class="btn btn-outline-danger">Delete</button>     
+               <button (click) = "m.isEdit =! m.isEdit"  class="btn btn-danger" type="button" class="btn btn-outline-danger">Edit</button> 
+               <div *ngIf="m.isEdit">     
+                  <div class="input-group-prepend">
+                  <input type="text"  placeholder="{{m.MarketName}}" #editMarket class="form-control-sm">   
+                </div>            
+                  <button (click)="EditMarket(m,editMarket.value)" type="button" class="btn btn-outline-danger">Update </button> 
+                </div>      
+            </div>
+             </li>
+        </ul>
+        </div>
+     

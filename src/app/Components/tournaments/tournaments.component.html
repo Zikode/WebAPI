@@ -1,0 +1,48 @@
+<div class="container">
+<div class="col md-3">
+        <h1>BET Tournaments</h1>
+        <div class="row">
+               
+                <label for="sport" class="col-sm-0 control-label">Sport:</label>
+                                <div class="col-sm-2">
+                        <select  class="form-control inputstl" [(ngModel)]="sportId" name="sportId"  (change)="GetSportId(sportId)">
+                                <option *ngFor="let sprt of sport" [value]="sprt.sportId">{{sprt.sportName}} 
+                                </option>
+                            </select>
+                        </div>
+
+                        <label for="country" class="col-sm-0 control-label" *ngIf="sportSelected">Country:</label>
+                        <div class="col-sm-2 " *ngIf="sportSelected">
+                <select  class="form-control inputstl" [(ngModel)]="countryId" name="countryId"  (change)="GetCountryId(countryId)">
+                        <option *ngFor="let con of country" [value]="con.countryId">{{con.countryName}}
+                        </option>
+                    </select>
+                </div>
+        
+
+           
+                    <div class="col-sm-3"   *ngIf="countrySelected" >
+                            <input type="text" [(ngModel)]="tournamnetName" name="tournamnetName" class="form-control"  placeholder="Tournament Name">
+                              </div>&nbsp;
+                              <div class="row"  *ngIf="countrySelected" >
+                                        <button (click)="AddTournament(tournamnetName,sportId,countryId);tournamnetName= ''" class="btn btn-success">Add </button>    
+                       
+                              </div>
+        
+       </div>
+
+        <ul *ngIf="tournament" class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let c of tournament">Sport: {{c.sportName}}  |  Country: {{c.countryName}}   |  Tournament: {{c.tournamentName}} 
+                <div class="btn-group" role="group">
+                    <button (click)="DeleteTournament(c)" type="button" class="btn btn-danger">Delete</button>
+                    <button (click)="tournament.isEdit =! tournament.isEdit" class="btn btn-danger" type="button" >Edit</button>
+                        <div *ngIf="tournament.isEdit">
+                            <input type="text" placeholder="{{c.tournamentName}}" #editTournament class="form-control-sm">
+                            <button (click)="EditTournament(c,editTournament.value)" type="button" class="btn btn-success">Update</button>
+                        
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </div>

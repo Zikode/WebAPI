@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="col md-3">
+      <h1>BET Events</h1>
+<div class="row">
+   
+        <label for="sport" class="col-sm-0 control-label">Sport:</label>
+
+        <div class="col-sm-2">
+        <select  class="form-control inputstl" [(ngModel)]="sportId" name="sportId"  (change)="GetSportId(sportId)">
+                <option *ngFor="let sprt of sport" [value]="sprt.sportId">{{sprt.sportName}} 
+                </option>
+            </select>
+        </div>
+
+  <label for="country" class="col-sm-0 control-label" *ngIf="SportSelected">Country:</label>
+
+        <div class="col-sm-2" *ngIf="SportSelected">
+        <select  class="form-control inputstl" [(ngModel)] ="countryId"  name="countryId" (change)="GetCountryId(countryId)">
+                <option *ngFor="let con of country" [value]="con.countryId">{{con.countryName}}
+                </option>
+            </select>
+        </div>
+
+        
+  <label for="tournament" class="col-sm-0 control-label" *ngIf="CountrySelected">Tournament:</label>
+
+  <div class="col-sm-2" *ngIf="CountrySelected">
+  <select  class="form-control inputstl" [(ngModel)] ="tournamentId"  name="tournamentId" (change)="GetTournamnetId(tournamentId)">
+          <option *ngFor="let con of tournament" [value]="con.tournamentId">{{con.tournamentName}}
+          </option>
+      </select>
+  </div>
+
+  <label for="Event" class="col-sm-0 control-label" *ngIf="TournamentSelected">Event:</label>
+
+  <div class="col-sm-2" *ngIf="TournamentSelected">
+  <select  class="form-control inputstl" [(ngModel)] ="eventId"  name="eventId" (change)="GetEventId(eventId)">
+          <option *ngFor="let eve of event" [value]="eve.eventId">{{eve.eventName}}
+          </option>
+      </select>
+  </div>
+</div>
+  <div class="row">
+  <label for="Event" class="col-sm-0 control-label" *ngIf="eventSelected">Active:</label>
+
+  <div class="col-sm-2" *ngIf="eventSelected">
+  <select  class="form-control inputstl" [(ngModel)] ="isActive"  name="isActive" (change)="GetisActive(isActive)">
+        <option [value]="">---</option>
+        <option [value]="false">False</option>
+        <option [value]="true">True</option>
+      </select>
+    </div>
+
+   
+            <div class="form-row align-items-center"   *ngIf="eventSelected">
+              <div class="col-auto">           
+                    <input type="text" [(ngModel)]="betTypeName" name="betTypeName" class="form-control" placeholder="BetType Name">  
+              </div> 
+
+              <div class="col-auto">
+                    <button (click)="AddBetType(betTypeName,isActive,sportId,countryId,tournamentId,eventId)" class="btn btn-success">Add</button>
+              </div>
+            </div>
+        
+</div>
+
+    <ul *ngIf="betType" class="list-group ">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let bettype of betType">Bet Type: {{bettype.betTypeName}} | Active: {{bettype.active}} | SportName:{{bettype.sportName}} 
+          <div class="btn-group" role="group"> 
+          <button (click)="DeleteBetType(bettype)"  type="button" class="btn btn-danger">Delete</button>     
+           <button (click) = "bettype.isEdit =! bettype.isEdit" type="button" class="btn btn-danger">Edit</button> 
+           <div *ngIf="bettype.isEdit" class="input-group mb-3">
+            
+                       
+  <label for="tournament" class="col-sm-0 control-label" >Status:</label>
+           <select  class="form-control inputstl" #isActive  name="isActive" (change)="GetisActive(isActive)">
+        <option [value]="">---</option>
+        <option [value]="false">False</option>
+        <option [value]="true">True</option>
+      </select>
+            <input type="text"  placeholder="{{bettype.betTypeName}}" #Editbetype  class="form-control-sm">       
+            
+           <button (click)="EditBetType(bettype,Editbetype.value,isActiveEdit.value)" type="button" class="btn btn-danger">Update </button> 
+          </div>
+        </div>
+         </li>
+    </ul>
+  </div>
+  </div>
+
