@@ -1,0 +1,125 @@
+<div class="wrapper">
+
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>BET System</h3>
+    </div>
+    <div id="sport">
+    <div id="country">
+    <div id="tournament">
+    <div id="event">
+    <ul class="list-unstyled components">
+      <p>Event Browser</p>
+      <li  *ngFor="let sport of Sports; let i = index;">
+        <a  data-toggle="collapse" aria-expanded="false" name="{{sport.sportName}}" (click)="GetSportId(sport.sportId)"    href="#sportSubmenu{{i}}">{{sport.sportName}}</a>
+        <ul class="collapse list-unstyled" id="sportSubmenu{{i}}"  data-parent="#sport">
+          <li  *ngFor="let country of Countries; let c = index;" >
+            <a data-toggle="collapse" aria-expanded="false" (click)="GetCountryId(country.countryId)" name="{{c}}"  href="#tour{{c}}">{{country.countryName}}</a>
+          
+            <ul class="collapse list-unstyled" id="tour{{c}}" data-parent="#country">
+              <li  *ngFor="let tournament of Tournaments; let t =index" >
+                <a data-toggle="collapse" aria-expanded="false" (click)="GetTournamentId(tournament.tournamentId)"  href="#tournamentSubmenu{{t}}">{{tournament.tournamentName}}</a>
+
+                <ul class="collapse list-unstyled list-group" id="tournamentSubmenu{{t}}" data-parent="#tournament">
+                  <li  *ngFor="let event of Events; let e = index ">
+                    <a data-toggle="collapse" aria-expanded="false" (click)="GetEventId(event.eventId)" href="#betType{{e}}" >{{event.eventName}}<br>    {{event.eventDate}}</a>
+                                
+                    <ul class="collapse list-unstyled list-group" id="betType{{e}}" data-parent="#event">
+                        <li   *ngFor="let bettype of betType">
+                          <a  (click)="GetBetTypeId(bettype.betTypeId)" href="#content" >{{bettype.betTypeName}}</a>
+                  </ul>
+            </ul>
+          </ul> 
+        </ul>
+    </ul>
+    </div>
+    </div>
+  </div>
+</div>
+  </nav>
+
+  <div id="content">
+     
+  
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <div  *ngIf="loggedOut">
+    <button type="button" class="btn btn-primary" *ngIf="user">{{user.username}} | Balance: <span class="badge">{{user.balance}}  </span></button>
+    <button type="button" class="btn btn-danger"  (click)="LogOut()">LogOut</button>
+</div>
+
+  <div *ngIf="logged">
+          <div class="container-fluid">
+              <button type="button" id="sidebarCollapse" class="btn btn-info">
+                  <i class="fas fa-align-left"></i>
+                  <span>
+                      <div class="form-inline">
+                         
+                          <div class="form-group mx-sm-3 mb-2">
+                            <!-- <label for="username" class="sr-only">username</label> -->
+                            <input type="text" #NewUsername  name="NewUsername" class="form-control" id="NewUsername" placeholder="username">
+                          </div>
+                          <div class="form-group mx-sm-3 mb-2">
+                              <!-- <label for="Password" class="sr-only">username</label> -->
+                              <input type="password" #NewPassword  name="NewPassword" class="form-control" id="NewPassword" placeholder="Password">
+                            </div>
+                          <button type="submit" class="btn btn-primary mb-2" (click)="Login(NewUsername.value,NewPassword.value)">login</button>&nbsp;&nbsp;
+                          <button type="submit" class="btn btn-primary mb-2" (click)="AddUser(NewUsername.value,NewPassword.value)">Register</button>
+                          </div>
+                </span>
+              </button>
+              <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <i class="fas fa-align-justify"></i>
+              </button>          
+          </div>
+
+
+        </div>
+          
+      </nav> 
+      
+      <table class="table" *ngFor="let mark of market">
+                 <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            
+              <th scope="col">{{mark.marketName}}</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"></th>
+              <td>Price</td>
+              <td></td>
+              <td>Draw</td>
+              <td></td>
+              <td>Price</td> 
+              <td></td>
+                </tr>
+
+            <tr>
+              <th scope="row"></th>
+              <td>{{mark.priceA}}</td>
+              <td>{{mark.teamA}}</td>
+              <td>{{mark.priceB}}</td>
+              <td>{{mark.teamB}}</td>
+              <td>2.1</td>
+              <td> 
+                <select #odd name="odd" (change)="GetOdd(odd)">
+                <option [value]="mark.priceA">{{mark.teamA}}</option>
+                <option [value]="mark.priceB">{{mark.teamB}}</option>                
+                </select>
+              </td>
+              <td>
+                  <div class="form-group mx-sm-3 mb-2" *ngIf="user">
+                      <input type="hidden" #userId  name="userId" value="{{user.userID}}" />
+                      <input type="text" #Stake  name="Stake" class="form-control" id="stake" placeholder="Stake" style="width:50%;">
+                      <button type="submit" class="btn btn-primary" (click)="AddBet(userId.value,mark.marketId,Stake.value,odd.value)">Bet</button>
+                    </div>                 
+              </td>
+            </tr>           
+          </tbody>
+        </table> 
+        </div>
+      
